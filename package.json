@@ -1,0 +1,17 @@
+{
+  "name": "caramelldansen",
+  "version": "1.0.0",
+  "description": "Just a caramelldansen rainbow app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "sselesUssencirP",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^15.3.0"
+  },
+  "devDependencies": {
+    "electron-packager": "^15.4.0"
+  }
+}
