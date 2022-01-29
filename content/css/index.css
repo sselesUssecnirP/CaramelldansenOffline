@@ -1,0 +1,99 @@
+.light-theme {
+    --popUp-color: rgb(231, 192, 192);
+    --popUpTextShadow: 1px 1px 2px rgb(117, 0, 0), 0 0 25px rgb(170, 0, 0);
+    --popUpBoxShadow: 1px 1px 2px rgb(59, 59, 59), 0 0 25px rgb(100, 100, 100);
+    --popUpBackgroundColor: rgb(107, 0, 0);
+    --langColor: rgb(231, 192, 192);
+    --langBgColor: rgb(107, 0, 0);
+    --rainbowA1: red;
+    --rainbowA2: rgb(255, 154, 21);
+    --rainbowA3: rgb(252, 255, 47);
+    --rainbowA4: rgb(0, 138, 7);
+    --rainbowA5: rgb(17, 0, 255);
+    --rainbowA6: rgb(71, 0, 119);
+    --rainbowA7: rgb(219, 118, 214);
+}
+
+/*
+.dark-theme {
+    --popUp-color: rgb(0, 24, 133);
+    --popUpTextShadow: 1px 1px 2px rgb(0, 119, 199), 0 0 25px rgb(73, 153, 207);
+    --popUpBoxShadow: 1px 1px 2px rgb(197, 197, 197), 0 0 25px rgb(138, 138, 138);
+    --popUpBackgroundColor: rgb(82, 0, 121);
+    --langColor: rgb(78, 0, 0);
+    --langBgColor: rgb(197, 57, 57);
+    --rainbowA1: rgb(87, 0, 0);
+    --rainbowA2: rgb(112, 64, 0);
+    --rainbowA3: rgb(107, 109, 0);
+    --rainbowA4: rgb(0, 70, 3);
+    --rainbowA5: rgb(5, 0, 75);
+    --rainbowA6: rgb(38, 0, 63);
+    --rainbowA7: rgb(114, 62, 111);
+}
+*/
+
+
+@keyframes rainbow-bg {
+    15% {
+        background-color: var(--rainbowA1);
+    }
+    30% {
+        background-color: var(--rainbowA2);
+    }
+    45% {
+        background-color: var(--rainbowA3);
+    }
+    60% {
+        background-color: var(--rainbowA4);
+    }
+    75% {
+        background-color: var(--rainbowA5);
+    }
+    90% {
+        background-color: var(--rainbowA6);
+    }
+    100% {
+        background-color: var(--rainbowA7);
+    }
+}
+
+html {
+    animation: rainbow-bg 0.75s infinite;
+    -webkit-animation: rainbow-bg 0.5s infinite;
+}
+
+body {
+    cursor: wait;
+    align-content: center;
+    text-align: center;
+    padding: 100px;
+}
+
+div#popUp {
+    text-align: center;
+    color: var(--popUp-color);
+    text-shadow: var(--popUpTextShadow);
+    box-shadow: var(--popUpBoxShadow);
+    background-color: var(--popUpBackgroundColor);
+    border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -ms-border-radius: 25px;
+    -o-border-radius: 25px;
+}
+
+#selectLanguage {
+    font-size: 28px;
+    color: var(--langColor);
+    background-color: var(--langBgColor);
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -ms-border-radius: 7px;
+    -o-border-radius: 7px;
+}
+
+div > p {
+    padding: 0px;
+    font-size: 16px;
+}

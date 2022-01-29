@@ -1,15 +1,19 @@
-const colorArr = ['#ffff00', '#00ff00', '#00ffff', '#ff00ff', '#ff0000']
-let colorNum = 0;
-let changeColorInterval = 10;
+const { selectedLanguage, jumpscares } = window.localStorage.getItem('save') || { selectedLanguage: 'Swedish', jumpscares: true };
 let jumpscare = false;
-let cancelJumpscareEnable = false;
-const currentLanguage = 'Swedish';
-let keysHeld = { Alt: false, End: false }
+let cancelJumpscareEnable = !jumpscares;
+let currentLanguage = selectedLanguage;
+let keysHeld = { Alt: false, End: false, Space: false }
+
+
+
+// document.querySelector('html').classList.add('dark-theme')
+document.querySelector('html').classList.add('light-theme')
 
 const popUpObj = document.getElementById('popUp')
 const swedish = document.getElementById('swedish');
-swedish.play()
+if (currentLanguage == 'Swedish') swedish.play()
 const english = document.getElementById('english')
+if (currentLanguage == 'English') english.play()
 const video = document.getElementById('video')
 document.getElementById('theBody').addEventListener('keydown', e => {
 
@@ -19,6 +23,8 @@ document.getElementById('theBody').addEventListener('keydown', e => {
         keysHeld.Alt = true;
     else if (e.key == 'End')
         keysHeld.End = true;
+    else if (e.code == 'Space')
+        keysHeld.Space = true; 
 });
 
 const popUp = async () => {
@@ -46,35 +52,39 @@ document.getElementById('theBody').addEventListener('keyup', async e => {
 
     console.log(`${e.key} released`)
 
-    if (e.key == 'Alt')
-        keysHeld.Alt = false;
-    else if (e.key == 'End') {
-        keysHeld.End = false;
-
+    if (keysHeld.Alt && keysHeld.End) {
         if (cancelJumpscareEnable) {
-            if (jumpscare)
-                jumpscare = false
-            else
-                jumpscare = true
+            jumpscare = !jumpscare
+            window.localStorage.setItem('save', { selectedLanguage: currentLanguage, jumpscares: jumpscare })
             popUp()
-        } else
+        } else {
             cancelJumpscareEnable = true;
             popUp()
+        }
     }
-        
+    
+    if (keysHeld.Space && e.code == 'Space') {
+        if (currentLanguage == 'Swedish')
+            if (swedish.paused)
+                swedish.play()
+            else 
+                swedish.pause()
+        else if (currentLanguage == 'English')
+            if (english.paused)
+                english.play()
+            else
+                english.pause()
+    }
+
+    if (e.key == 'Alt')
+        keysHeld.Alt = false;
+    else if (e.key == 'End')
+        keysHeld.End = false;
+    else if (e.key == 'Space')
+        keysHeld.Space = false; 
 
     
 });
-
-const changeColor = () => {
-    //console.time('changeColor')
-    if (colorNum > (colorArr.length - 1))
-        colorNum = 0
-
-    document.getElementById('theBody').style.backgroundColor = colorArr[colorNum]
-    colorNum++
-    //console.timeEnd('changeColor')
-};
 
 const playVideo = () => {
     //console.time('playVideo')
@@ -111,12 +121,17 @@ const playVideo = () => {
     }
 
     //console.timeEnd('playVideo')
-    setTimeout(resetPlayer, 5000)
+    if (chance > 94) {
+        if (!jumpscare)
+            return;
+        
+        setTimeout(resetPlayer, 5000)
+    }
 }
 
 const jumpscareEnable = () => {
 
-    if (cancelJumpscareEnable == false) {
+    if (!cancelJumpscareEnable) {
         jumpscare = true;
         cancelJumpscareEnable = true;
     }
@@ -125,24 +140,25 @@ const jumpscareEnable = () => {
 
 const languageReset = () => {
 
-    let language = document.getElementById('chooseLanguage')
+    let language = document.getElementById('selectLanguage')
 
-    if (language.value == 'Swedish') {
+    if (language.options[language.selectedIndex].value == 'Swedish') {
         english.pause()
         english.currentTime = 0
         swedish.play()
         currentLanguage = 'Swedish'
+        window.localStorage.setItem('save', { selectedLanguage: currentLanguage, jumpscares: jumpscare })
     } else {
         swedish.pause()
         swedish.currentTime = 0
         english.play()
         currentLanguage = 'English'
+        window.localStorage.setItem('save', { selectedLanguage: currentLanguage, jumpscares: jumpscare })
     }
         
 }
 
 setTimeout(jumpscareEnable, 120000)
-setInterval(changeColor, 75)
 setInterval(playVideo, 500)
 
 document.getElementById('theBody').style.cursor = 'auto'
